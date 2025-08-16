@@ -2,28 +2,28 @@
 
 const userForm = new UserForm();
 
-userForm.loginFormCallback = function (data) {
-  ApiConnector.login(
-    {
-      login: data.login,
-      password: data.password,
-    },
-    (response) => {
-      console.log("Ответ сервера при входе:", response);
-      location.reload();
+userForm.loginFormCallback = function(data) {
+    
+    ApiConnector.login(data, (response) => {
+        if(response.success) {
+          console.log("Вход успешный")
+          location.reload();
+        } else {
+          setLoginErrorMessage(`Вход не выполнен: ${response.error}`);
+        }
     }
-  );
+);
 };
-
-userForm.registerFormCallback = function (data) {
-  ApiConnector.register(
-    {
-      login: data.login,
-      password: data.password,
-    },
-    (response) => {
-      console.log("Ответ сервера при регистрации:", response);
-      location.reload();
-    }
-  );
-};
+    
+    userForm.registerFormCallback = function(data) {
+        ApiConnector.register(data, (response) => {
+            if(response.success) {
+              console.log("Регистрация успешная")
+              location.reload();
+            } else {
+              setRegisterErrorMessage(`Регистрация не выполнена: ${response.error}`);
+            }
+           }
+        );
+    };  
+    
